@@ -19,7 +19,7 @@ declare global {
 }
 
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.cookies.token; // asumimos que la cookie se llama 'token'
+    const token = req.cookies.token;
 
     if (!token) {
        res.status(401).json({ message: "No autenticado" });
