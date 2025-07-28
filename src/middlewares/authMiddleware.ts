@@ -22,7 +22,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     const token = req.cookies.token; // asumimos que la cookie se llama 'token'
 
     if (!token) {
-      return res.status(401).json({ message: "No autenticado" });
+       res.status(401).json({ message: "No autenticado" });
+       return
     }
     
     try {
@@ -31,14 +32,16 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         next();
     } catch (err) {
         console.error("Error verificando token:", err);
-        return res.status(401).json({ message: "Token inválido o expirado." });
+         res.status(401).json({ message: "Token inválido o expirado." });
+         return
     }
 };
 
 export const authorizeRoles = (...roles: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
         if (!req.user || !roles.includes(req.user.role)) {
-            return res.status(403).json({ message: "Acceso denegado. Rol no autorizado." });
+             res.status(403).json({ message: "Acceso denegado. Rol no autorizado." });
+             return
         }
         next();
     };
