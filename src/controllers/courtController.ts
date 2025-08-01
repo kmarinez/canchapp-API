@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Court from "../models/Court";
 import Reservation from "../models/Reservation";
+import { format, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 
 const TIME_RANGES: Record<string, { start: string; end: string }> = {
     morning: { start: "08:00", end: "12:00" },
@@ -93,10 +95,13 @@ export const availableCourts = async (req: Request, res: Response) => {
             return res.status(400).json({ message: "Rango horario inválido." });
         }
 
+        const dayName = format(parseISO(date as string), "EEEE", { locale: es }).toLowerCase();
+
         const courts = await Court.find({
             type: type,
             status: { $in: ["activo", "cancelada"] },
-            isDeleted: false
+            isDeleted: false,
+            operatingDays: { $in: [dayName] }
         });
 
         //Filtrar canchas que no tengan reserva en el rango especificado
