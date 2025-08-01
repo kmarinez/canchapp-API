@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface ICourt extends Document {
   courtName: string;
-  type: "baloncesto" | "volleyball";
+  type: "baloncesto" | "voleibol";
   location: string;
   indoorOrOutdoor: "techado" | "destechado";
   playerCapacity: number;
@@ -18,7 +18,7 @@ export interface ICourt extends Document {
 const CourtSchema = new Schema<ICourt>(
   {
     courtName: { type: String, required: true },
-    type: { type: String, enum: ["baloncesto", "volleyball"], required: true },
+    type: { type: String, enum: ["baloncesto", "voleibol"], required: true },
     location: { type: String, required: true },
     indoorOrOutdoor: { type: String, enum: ["techado", "destechado"], required: true },
     playerCapacity: { type: Number, required: true },
